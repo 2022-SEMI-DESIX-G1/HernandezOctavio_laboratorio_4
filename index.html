@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio#1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- La sucesión comienza con los números 0 y 1;2
+    a partir de estos, «cada término es la suma 
+    de los dos anteriores», es la relación de recurrencia
+    que la define.-->
+    <section class="box">
+        <h2 class="box-title">Secuencia Fibonacci</h2>
+        <form action="" class="" name="form" id="form" onsubmit="validarFormulario(event);">
+            <label class="box-label" for="">Ingrese un numero :</label>
+            <input type="number" name="" id="number" placeholder="1-100" autocomplete="off" required/>
+            <div class="caja-botones">
+                <input class="btn bg-gray" type="reset" value="Borrar datos" onclick="recarga()">
+                <input class="btn bg-red" type="submit" value="Generar tarjetas">
+            </div>
+        </form>
+    </section> 
+    <section class="box">
+        <div id="container"><!--Contenedor de tarjetas--></div>
+    </section>
+    <script>
+        function validarFormulario(eve){
+            eve.preventDefault();
+            var number= document.getElementById("number").value;
+            if(number==null || number=="" || number<=0){
+                alert("[Error]: INGRESE UN NUMERO VALIDO"); 
+            }
+            else{
+                console.log(number);
+                var n1 = 0;
+                var n2 = 1;
+                var result = 0;
+                var count = 1;
+                for(var i=0; i <number-1; i++){
+                    generarTajetas(result, count)
+                    result = n1 + n2;
+                    n1 = n2;
+                    n2 = result;
+                    if(result==1){
+                        count++;
+                        generarTajetas(result, count)
+                    }
+                    count++;
+                }   
+            }
+        }
+        function generarTajetas(res,coun){
+            const para = document.createElement("p");
+                    para.classList="tarjeta";
+                    const node = document.createTextNode(res);
+                    para.appendChild(node);
+                    const element = document.getElementById("container");
+                    element.appendChild(para);
+                    para.id="tarjeta#"+coun;
+                    para.addEventListener("click",(e)=>{
+                        if(confirm("[MENSAJE]: Desea Borrar este elemento ?")){
+                            para.remove()
+                            setTimeout(function(){ para.style.display = "display"; }, 600);
+                        }
+                    })
+        }
+        function recarga(){
+            location.reload();
+        }
+    </script>
+</body>
+</html>
